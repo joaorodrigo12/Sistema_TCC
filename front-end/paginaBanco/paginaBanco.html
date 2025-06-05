@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sea Expert System</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="shortcut icon" type="image/png" href="../../assets/tubarao.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <a href="/index.html">
+        <button class="home-button">&#8962; Home</button>
+    </a>    <!-- Menu de navegação -->
+    <div class="menu">
+        <a href="/index.html">
+            <button class="sistema" >Identificar uma espécie</button>
+        </a> 
+
+        <a href="/front-end/paginaBanco/paginaBanco.html">
+            <button class="banco" >Base completa</button>
+        </a> 
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="content">
+        <div class="game-container">
+            <p id="resultado">Banco de dados</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <td class="coluna_animal">Animal</td>
+                        <td class="coluna_ordem">Ordem</td>
+                        <td class="coluna_familia">Família</td>
+                        <td class="coluna_genero">Gênero</td>
+                        <td class="coluna_especie">Espécie</td>
+                        <td class="coluna_fishbase">Fish Base</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Logo clicável centralizada na parte inferior -->
+    <script src="./script.js"></script>
+</body>
+</html>
