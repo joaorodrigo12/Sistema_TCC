@@ -2,8 +2,6 @@
 
 Um sistema interativo especializado para identificação de tubarões, raias e quimeras através de uma abordagem de questionário guiado. Este sistema de identificação utiliza diversas características morfológicas para ajudar usuários a identificar espécies marinhas.
 
-![Sistema Especialista Marinho](./assets/logo_fishbase.png)
-
 ## Índice
 
 - Visão Geral
