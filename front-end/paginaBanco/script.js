@@ -1,6 +1,6 @@
 function carregaAnimais(){
 
-    fetch(`http://localhost:3000/listaAnimais`, {
+    fetch(`/listaAnimais`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
