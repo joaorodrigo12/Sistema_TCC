@@ -131,6 +131,15 @@ function voltar() {
         } else {
             document.querySelector(".voltar-button").style.display = "none";
         }
+    } else if (listaPergunta == "questionarioTubarao") {
+        if (currentQuestionQuestionario > 0) {
+            respostaTubarao.pop();
+            currentQuestionQuestionario--;
+            carregaQuestionarioTubarao()
+
+        } else {
+            document.querySelector(".voltar-button").style.display = "none";
+        }
 
     } else if (listaPergunta == "raia") {
         if (currentQuestionRaia > 0) {
@@ -444,6 +453,17 @@ function carregarPerguntasTubarao() {
 
 
                 }
+                if (pergunta == "Possui barbelas nas narinas?" && resposta == "Sem informação") {
+                    currentQuestionTubarao++;
+                    carregaQuestionarioTubarao();
+                    respostaTubarao.push({
+                        coluna: coluna,
+                        resposta: resposta
+                    });
+                    return
+
+
+                }
 
 
 
@@ -473,7 +493,6 @@ function carregarPerguntasTubarao() {
         })
             .then(response => response.text())
             .then(data => {
-
                 window.location.href = `/front-end/paginaEspecie/paginaEspecie.html?resultado=${ encodeURIComponent(data) }`;
                 document.getElementById("question").innerText = `Carregando...`
 
@@ -976,7 +995,7 @@ let currentQuestion3Ordens = 0;
 function carregaPergunta3Ordens() {
 
     if (currentQuestion3Ordens > 0) {
-        document.querySelector(".voltar-button").id = "3ordens";
+        document.querySelector(".voltar-button").id = "questionarioTubarao";
     } else {
         document.querySelector(".voltar-button").id = "tubarao";
     }
@@ -1036,6 +1055,67 @@ function carregaPergunta3Ordens() {
 }
 
 
+let currentQuestionQuestionario = 0;
+function carregaQuestionarioTubarao() {
+
+    if (currentQuestionQuestionario > 0) {
+        document.querySelector(".voltar-button").id = "3ordens";
+    } else {
+        document.querySelector(".voltar-button").id = "tubarao";
+    }
+
+
+    const div_buttons = document.getElementById("answer-buttons");
+    div_buttons.style.display = "block";
+    div_buttons.innerHTML = "";
+
+    const arrayTemporarioPerguntas = Array.from(arrayTodasPerguntasTubarao);
+    if (arrayTemporarioPerguntas.length > currentQuestionQuestionario) {
+
+        arrayTemporarioPerguntas[currentQuestionQuestionario].resposta.forEach(resposta => {
+            const pergunta = arrayTemporarioPerguntas[currentQuestionQuestionario].pergunta;
+            const coluna = arrayTemporarioPerguntas[currentQuestionQuestionario].coluna;
+
+            let answerButton = document.createElement("button");
+            answerButton.classList.add("answer-button");
+            answerButton.innerText = resposta;
+            answerButton.addEventListener("click", () => {
+
+                respostaTubarao.push({
+                    coluna: coluna,
+                    resposta: resposta
+                });
+
+
+                currentQuestionQuestionario++;
+                carregaQuestionarioTubarao();
+            })
+
+            document.getElementById("answer-buttons").appendChild(answerButton);
+        })
+
+        document.getElementById("question").innerText = arrayTemporarioPerguntas[currentQuestionQuestionario].pergunta;
+
+    } else {
+
+        const respostaTubaraoString = encodeURIComponent(JSON.stringify(respostaTubarao))
+        fetch(`/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: respostaRaia
+        })
+            .then(response => response.text())
+            .then(data => {
+                window.location.href = `/front-end/paginaEspecie/paginaEspecie.html?resultado=${ encodeURIComponent(data) }`;
+                document.getElementById("question").innerText = `Carregando...`
+            })
+            .catch(error => console.error("Erro:", error));
+
+    }
+
+}
 
 
 
@@ -1069,7 +1149,6 @@ let arrayTodasPerguntasTubarao = new Set([
   ...perguntasLamniformes,
   ...perguntasSqualiformes
 ]);
-console.log("arrayTodasPerguntasTubarao ==> ", arrayTodasPerguntasTubarao);
 
 
 
