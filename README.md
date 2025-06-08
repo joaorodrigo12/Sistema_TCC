@@ -47,11 +47,8 @@ npm install
 ```
 3. Configure a conexão com o banco de dados em [`back-end/db.js`](back-end/db.js) se necessário.
 
-4. Instale a extensão: Live Server(https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
-
-5. Inicie a aplicação:
+4. Inicie a aplicação:
 ```
-No canto inferior direito, aperte o botão "Go Live"
 npm run dev
 ```
 
