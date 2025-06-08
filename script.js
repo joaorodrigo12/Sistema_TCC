@@ -131,15 +131,6 @@ function voltar() {
         } else {
             document.querySelector(".voltar-button").style.display = "none";
         }
-    } else if (listaPergunta == "questionarioTubarao") {
-        if (currentQuestionQuestionario > 0) {
-            respostaTubarao.pop();
-            currentQuestionQuestionario--;
-            carregaQuestionarioTubarao()
-
-        } else {
-            document.querySelector(".voltar-button").style.display = "none";
-        }
 
     } else if (listaPergunta == "raia") {
         if (currentQuestionRaia > 0) {
@@ -337,7 +328,7 @@ function carregarPerguntasQuimera() {
 
     } else {
         const respostaQuimeraString = encodeURIComponent(JSON.stringify(respostaQuimera))
-        fetch(`http://localhost:3000/quimera?respostaQuimera=${ respostaQuimeraString }`, {
+        fetch(`/quimera?respostaQuimera=${ respostaQuimeraString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -453,17 +444,6 @@ function carregarPerguntasTubarao() {
 
 
                 }
-                if (pergunta == "Possui barbelas nas narinas?" && resposta == "Sem informação") {
-                    currentQuestionTubarao++;
-                    carregaQuestionarioTubarao();
-                    respostaTubarao.push({
-                        coluna: coluna,
-                        resposta: resposta
-                    });
-                    return
-
-
-                }
 
 
 
@@ -484,7 +464,7 @@ function carregarPerguntasTubarao() {
     } else {
 
         const respostaTubaraoString = encodeURIComponent(JSON.stringify(respostaTubarao))
-        fetch(`http://localhost:3000/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
+        fetch(`/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -493,6 +473,7 @@ function carregarPerguntasTubarao() {
         })
             .then(response => response.text())
             .then(data => {
+
                 window.location.href = `/front-end/paginaEspecie/paginaEspecie.html?resultado=${ encodeURIComponent(data) }`;
                 document.getElementById("question").innerText = `Carregando...`
 
@@ -618,7 +599,7 @@ function carregaPerguntasSqualiformes() {
     } else {
 
         const respostaTubaraoString = encodeURIComponent(JSON.stringify(respostaTubarao))
-        fetch(`http://localhost:3000/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
+        fetch(`/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -747,7 +728,7 @@ function carregaPerguntasLamniformes() {
     } else {
 
         const respostaTubaraoString = encodeURIComponent(JSON.stringify(respostaTubarao))
-        fetch(`http://localhost:3000/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
+        fetch(`/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -907,7 +888,7 @@ function carregaPerguntasCarcharhiniformes() {
     } else {
 
         const respostaTubaraoString = encodeURIComponent(JSON.stringify(respostaTubarao))
-        fetch(`http://localhost:3000/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
+        fetch(`/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -995,7 +976,7 @@ let currentQuestion3Ordens = 0;
 function carregaPergunta3Ordens() {
 
     if (currentQuestion3Ordens > 0) {
-        document.querySelector(".voltar-button").id = "questionarioTubarao";
+        document.querySelector(".voltar-button").id = "3ordens";
     } else {
         document.querySelector(".voltar-button").id = "tubarao";
     }
@@ -1036,7 +1017,7 @@ function carregaPergunta3Ordens() {
     } else {
 
         const respostaTubaraoString = encodeURIComponent(JSON.stringify(respostaTubarao))
-        fetch(`http://localhost:3000/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
+        fetch(`/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1055,67 +1036,6 @@ function carregaPergunta3Ordens() {
 }
 
 
-let currentQuestionQuestionario = 0;
-function carregaQuestionarioTubarao() {
-
-    if (currentQuestionQuestionario > 0) {
-        document.querySelector(".voltar-button").id = "3ordens";
-    } else {
-        document.querySelector(".voltar-button").id = "tubarao";
-    }
-
-
-    const div_buttons = document.getElementById("answer-buttons");
-    div_buttons.style.display = "block";
-    div_buttons.innerHTML = "";
-
-    const arrayTemporarioPerguntas = Array.from(arrayTodasPerguntasTubarao);
-    if (arrayTemporarioPerguntas.length > currentQuestionQuestionario) {
-
-        arrayTemporarioPerguntas[currentQuestionQuestionario].resposta.forEach(resposta => {
-            const pergunta = arrayTemporarioPerguntas[currentQuestionQuestionario].pergunta;
-            const coluna = arrayTemporarioPerguntas[currentQuestionQuestionario].coluna;
-
-            let answerButton = document.createElement("button");
-            answerButton.classList.add("answer-button");
-            answerButton.innerText = resposta;
-            answerButton.addEventListener("click", () => {
-
-                respostaTubarao.push({
-                    coluna: coluna,
-                    resposta: resposta
-                });
-
-
-                currentQuestionQuestionario++;
-                carregaQuestionarioTubarao();
-            })
-
-            document.getElementById("answer-buttons").appendChild(answerButton);
-        })
-
-        document.getElementById("question").innerText = arrayTemporarioPerguntas[currentQuestionQuestionario].pergunta;
-
-    } else {
-
-        const respostaTubaraoString = encodeURIComponent(JSON.stringify(respostaTubarao))
-        fetch(`http://localhost:3000/tubarao?respostaTubarao=${ respostaTubaraoString }`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data: respostaRaia
-        })
-            .then(response => response.text())
-            .then(data => {
-                window.location.href = `/front-end/paginaEspecie/paginaEspecie.html?resultado=${ encodeURIComponent(data) }`;
-                document.getElementById("question").innerText = `Carregando...`
-            })
-            .catch(error => console.error("Erro:", error));
-
-    }
-
-}
 
 
 
@@ -1149,6 +1069,7 @@ let arrayTodasPerguntasTubarao = new Set([
   ...perguntasLamniformes,
   ...perguntasSqualiformes
 ]);
+console.log("arrayTodasPerguntasTubarao ==> ", arrayTodasPerguntasTubarao);
 
 
 
@@ -1262,7 +1183,7 @@ function carregarPerguntasRaia() {
     } else {
 
         const respostaRaiaString = encodeURIComponent(JSON.stringify(respostaRaia))
-        fetch(`http://localhost:3000/raia?respostaRaia=${ respostaRaiaString }`, {
+        fetch(`/raia?respostaRaia=${ respostaRaiaString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1341,7 +1262,7 @@ function carregarPerguntasOrdem1Raia() {
     } else {
 
         const respostaRaiaString = encodeURIComponent(JSON.stringify(respostaRaia))
-        fetch(`http://localhost:3000/raia?respostaRaia=${ respostaRaiaString }`, {
+        fetch(`/raia?respostaRaia=${ respostaRaiaString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1407,7 +1328,7 @@ function carregarPerguntasOrdem2Raia() {
 
     } else {
         const respostaRaiaString = encodeURIComponent(JSON.stringify(respostaRaia))
-        fetch(`http://localhost:3000/raia?respostaRaia=${ respostaRaiaString }`, {
+        fetch(`/raia?respostaRaia=${ respostaRaiaString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1562,7 +1483,7 @@ function carregarPerguntasOrdem3Raia() {
 
     } else {
         const respostaRaiaString = encodeURIComponent(JSON.stringify(respostaRaia))
-        fetch(`http://localhost:3000/raia?respostaRaia=${ respostaRaiaString }`, {
+        fetch(`/raia?respostaRaia=${ respostaRaiaString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1728,7 +1649,7 @@ function carregarPerguntasOrdem4Raia() {
 
     } else {
         const respostaRaiaString = encodeURIComponent(JSON.stringify(respostaRaia))
-        fetch(`http://localhost:3000/raia?respostaRaia=${ respostaRaiaString }`, {
+        fetch(`/raia?respostaRaia=${ respostaRaiaString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1831,7 +1752,7 @@ function carregarPerguntasFamiliaArhynchobatidae() {
 
     } else {
         const respostaRaiaString = encodeURIComponent(JSON.stringify(respostaRaia))
-        fetch(`http://localhost:3000/raia?respostaRaia=${ respostaRaiaString }`, {
+        fetch(`/raia?respostaRaia=${ respostaRaiaString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1898,7 +1819,7 @@ function carregarTodasPerguntasRaia() {
 
     } else {
         const respostaRaiaString = encodeURIComponent(JSON.stringify(respostaRaia))
-        fetch(`http://localhost:3000/raia?respostaRaia=${ respostaRaiaString }`, {
+        fetch(`/raia?respostaRaia=${ respostaRaiaString }`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -1917,4 +1838,3 @@ function carregarTodasPerguntasRaia() {
 }
 
 //#endregion
-
